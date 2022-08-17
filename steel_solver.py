@@ -13,6 +13,7 @@ class SteelSolver:
     def __init__(self, member):
         self.member = member
 
+
 # class TensionMember contains methods that complete checks on an inputted method based on a given load case
 class TensionMember(SteelSolver):
     def __init__(self, member, loading):
@@ -45,4 +46,16 @@ class TensionMember(SteelSolver):
 
         return pass_gross_yielding
 
-    # TODO: net section area, net rupture, net yield
+    # check_gross_rupture() checks member rupture in the effective section based of AISC tbl 6-2 assuming Ae = 0.75Ag
+    def check_net_rupture(self):
+        member = self.member
+        net_area = member.get_area() * 0.75  # conservative if Ae > 0.75Ag
+        nominal_resistance = net_area * self.rupture_strength
+        factored_resistance = nominal_resistance * self.rupture_resistance_factor
+        load_effect = self.loading * net_area
+
+        pass_net_rupture = True
+        if load_effect > factored_resistance
+            pass_net_rupture = False
+
+        return pass_net_rupture
