@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+# TODO: format outputs to include calculations
+# TODO: comment AISC references
 
 # class SteelSolver is a superclass under which solvers for different load conditions are stored. The input is a
 # member object.
@@ -47,6 +49,7 @@ class TensionMember(SteelSolver):
         return pass_gross_yielding
 
     # check_gross_rupture() checks member rupture in the effective section based of AISC tbl 6-2 assuming Ae = 0.75Ag
+    # TODO: actual effective area calculations based on AISC provisions. Possibly in member_maker
     def check_net_rupture(self):
         member = self.member
         net_area = member.get_area() * 0.75  # conservative if Ae > 0.75Ag
@@ -55,7 +58,7 @@ class TensionMember(SteelSolver):
         load_effect = self.loading * net_area
 
         pass_net_rupture = True
-        if load_effect > factored_resistance
+        if load_effect > factored_resistance:
             pass_net_rupture = False
 
         return pass_net_rupture
